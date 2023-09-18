@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable max-len */
 /**
  * Формирует экземпляр персонажа из массива allowedTypes со
  * случайным уровнем от 1 до maxLevel
@@ -9,7 +11,12 @@
  *
  */
 export function* characterGenerator(allowedTypes, maxLevel) {
-  // TODO: write logic here
+  while (true) {
+    const randomChar = allowedTypes[Math.floor(Math.random() * allowedTypes.length)];
+    const randomLvl = Math.floor(Math.random() * maxLevel) + 1;
+    randomChar.level = randomLvl;
+    yield randomChar;
+  }
 }
 
 /**
@@ -20,5 +27,14 @@ export function* characterGenerator(allowedTypes, maxLevel) {
  * @returns экземпляр Team, хранящий экземпляры персонажей. Количество персонажей в команде - characterCount
  * */
 export function generateTeam(allowedTypes, maxLevel, characterCount) {
-  // TODO: write logic here
+  const arr = [];
+
+  for (let i = 0; i < characterCount; i += 1) {
+    arr.push(allowedTypes[Math.floor(Math.random() * allowedTypes.length)]);
+  }
+
+  for (let i = 0; i < allowedTypes.length; i += 1) {
+    allowedTypes[i].level = Math.floor(Math.random() * maxLevel) + 1;
+  }
+  return arr;
 }

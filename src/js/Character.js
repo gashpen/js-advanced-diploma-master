@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 /**
  * Базовый класс, от которого наследуются классы персонажей
  * @property level - уровень персонажа, от 1 до 4
@@ -19,6 +20,10 @@ export default class Character {
     this.defence = 0;
     this.health = 50;
     this.type = type;
+
+    if (new.target.name === 'Character') {
+      throw 'Dont use new';
+    }
     // TODO: выбросите исключение, если кто-то использует "new Character()"
   }
 }

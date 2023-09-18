@@ -1,32 +1,31 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  context: path.resolve(__dirname, 'src'),
+  entry: './index.js',
   module: {
     rules: [
-      { test: /\.svg$/, use: 'svg-inline-loader' },
-      { test: /\.css$/, use: [ 'style-loader', 'css-loader' ] },
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
       { test: /\.(js)$/, use: 'babel-loader' },
-      { test: /\.(png|jpg|gif)$/i,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 8192,
-            }
-          },
-        ],
-       type: 'javascript/auto'
-      }
-    ]
+      {
+        test: /\.jpg$/,
+        type: 'asset/resourse',
+        generator: {
+          filename: 'static/[hash][ext][query]',
+        },
+      },
+      { test: /\.svg$/, type: 'asset/inline' },
+    ],
   },
   output: {
+    filename: 'index_bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    filename: 'index_bundle.js'
   },
   plugins: [
-    new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin({
+      template: './index.html',
+    }),
   ],
-  mode: 'development'
-}
+  mode: 'development',
+};
